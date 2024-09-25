@@ -10,12 +10,12 @@ local CoreGui = game:GetService("CoreGui")
 
 -- local midiPlayer = script:FindFirstAncestor("MidiPlayer")
 
-local FastDraggable = require(loadstring(game:GetHttpAsync("https://raw.githubusercontent.com/zoeyluau/MidiPlayer/refs/heads/main/src/FastDraggable.lua"))())
-local Controller = require(loadstring(game:GetHttpAsync("https://raw.githubusercontent.com/zoeyluau/MidiPlayer/refs/heads/main/src/Components/Controller.lua"))())
-local Sidebar = require(loadstring(game:GetHttpAsync("https://raw.githubusercontent.com/zoeyluau/MidiPlayer/refs/heads/main/src/Components/Sidebar.lua"))())
-local Preview = require(loadstring(game:GetHttpAsync("https://raw.githubusercontent.com/zoeyluau/MidiPlayer/refs/heads/main/src/Components/Preview.lua"))())
+local FastDraggable = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/zoeyluau/MidiPlayer/refs/heads/main/src/FastDraggable.lua"))()
+local Controller = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/zoeyluau/MidiPlayer/refs/heads/main/src/Components/Controller.lua"))()
+local Sidebar = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/zoeyluau/MidiPlayer/refs/heads/main/src/Components/Sidebar.lua"))()
+local Preview = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/zoeyluau/MidiPlayer/refs/heads/main/src/Components/Preview.lua"))()
 
-local gui = loadstring(game:GetHttpAsync("https://raw.githubusercontent.com/zoeyluau/MidiPlayer/refs/heads/main/src/Assets/ScreenGui.lua"))()
+local gui = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/zoeyluau/MidiPlayer/refs/heads/main/src/Assets/ScreenGui.lua"))()
 
 function App:GetGUI()
     return gui

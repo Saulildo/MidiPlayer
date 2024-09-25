@@ -1,31 +1,6 @@
 # MidiPlayer
+Forked from [0866's MidiPlayer](https://github.com/richie0866/MidiPlayer), a virtual piano MIDI file autoplayer for Roblox
 
-Virtual piano midi file autoplayer for Roblox. I am no longer updating this script, but pull requests are welcome.
+Run `loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/zoeyluau/MidiPlayer/refs/heads/main/src/init.lua'))()` and go to your executor's workspace path and there should be a new folder named midi created. Place your downloaded MIDI files and instantly use them.
 
-## Install
-
-To install MidiPlayer for your script executor, save the `package.lua` file located in this repository to your `scripts/` folder.
-
-## Usage
-
-To play midi files, simply add them to the `midi/` folder in your exploit's workspace directory.
-
-![Midi folder](img/midi-folder.png)
-
-Your midi files will be accessible in the UI:
-
-https://user-images.githubusercontent.com/74037129/121129781-4ccd6e80-c7e2-11eb-8a59-561aebb2cf8b.mp4
-
-The circular button next to the title toggles midi visualization, as complex sheets may cause framerate issues.
-
-## Notes
-
-* UI is built into the project at `src/Assets/ScreenGui.rbxm`, so no assets are loaded
-* HTTP requests only check for updates and download the project
-
-## Drawbacks
-
-* Executes from start to finish, including all code execution and `require` calls, in 80ms in Synapse-X
-  * There is much room for improvement, though loading times vary between script executors
-
-Want to make a contribution to Rostruct? [See the repository here](https://github.com/richie0866/Rostruct)
+This script, in reality, only replaces all the require methods in all of the scripts with loadstring, which could slow down execution time.
