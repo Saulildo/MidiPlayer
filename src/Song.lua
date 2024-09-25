@@ -7,8 +7,8 @@
 local Song = {}
 Song.__index = Song
 
-local MIDI = require(script.Parent.MIDI)
-local Input = require(script.Parent.Input)
+local MIDI = loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/zoeyluau/MidiPlayer/refs/heads/main/src/MIDI.lua'))()
+local Input = loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/zoeyluau/MidiPlayer/refs/heads/main/src/Input.lua'))()
 
 local RunService = game:GetService("RunService")
 
