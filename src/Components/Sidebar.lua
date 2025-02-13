@@ -5,9 +5,9 @@
 
 
 local midiPlayer = script:FindFirstAncestor("MidiPlayer")
-local Thread = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/zoeyluau/MidiPlayer/refs/heads/main/src/Util/Thread.lua"))()
-local Controller = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/zoeyluau/MidiPlayer/refs/heads/main/src/Components/Controller.lua"))()
-local FastTween = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/zoeyluau/MidiPlayer/refs/heads/main/src/FastTween.lua"))()
+local Thread = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/cjsomook/MidiPlayer/refs/heads/main/src/Util/Thread.lua"))()
+local Controller = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/cjsomook/MidiPlayer/refs/heads/main/src/Components/Controller.lua"))()
+local FastTween = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/cjsomook/MidiPlayer/refs/heads/main/src/FastTween.lua"))()
 
 local Sidebar = {}
 
@@ -37,14 +37,14 @@ function Sidebar:CreateElement(filePath)
     end
 
     element.InputBegan:Connect(function(input)
-        if (input.UserInputType == Enum.UserInputType.MouseButton1) then
+        if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) then
             FastTween(element, tweenInfo, { BackgroundTransparency = 0.5 })
             Controller:Select(filePath)
         end
     end)
 
     element.InputEnded:Connect(function(input)
-        if (input.UserInputType == Enum.UserInputType.MouseButton1) then
+        if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) then
             FastTween(element, tweenInfo, { BackgroundTransparency = 0.75 })
         end
     end)
