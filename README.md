@@ -3,7 +3,7 @@ Original by [0866's MidiPlayer](https://github.com/richie0866/MidiPlayer), a vir
 Forked from [zoeyluau](https://github.com/zoeyluau/MidiPlayer).
 Run
 ```
-loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/zoeyluau/MidiPlayer/refs/heads/main/src/init.lua'))()
+loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/cjsomook/MidiPlayer/refs/heads/main/src/init.lua'))()
 ```
 and go to your executor's workspace path and there should be a new folder named midi created. Place your downloaded MIDI files and instantly use them.
 
