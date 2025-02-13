@@ -19,7 +19,7 @@
 
 --]]
 
-local Promise = loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/zoeyluau/MidiPlayer/refs/heads/main/src/Util/Promise.lua'))()
+local Promise = loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/cjsomook/MidiPlayer/refs/heads/main/src/Util/Promise.lua'))()
 
 local Connection = {}
 Connection.__index = Connection
