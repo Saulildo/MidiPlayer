@@ -25,6 +25,10 @@ local preview, notes, noteTemplate
 
 
 function Preview:Draw(song)
+    if not notes then
+        return -- Exit early if Preview hasn't been initialized yet
+    end
+    
     notes:ClearAllChildren()
 
     notes.Parent = nil
@@ -55,11 +59,18 @@ end
 
 
 function Preview:Clear()
+    if not notes then
+        return -- Exit early if Preview hasn't been initialized yet
+    end
     notes:ClearAllChildren()
 end
 
 
 function Preview:Update(position)
+    if not notes or not preview then
+        return -- Exit early if Preview hasn't been initialized yet
+    end
+    
     if (not genv._hideSongPreview) then
         if (position) then
             notes.Position = UDim2.new(0, 0, 1, position / 2)
