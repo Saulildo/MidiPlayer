@@ -15,8 +15,8 @@ local NOTE_MAP = "1!2@34$5%6^78*9(0qQwWeErtTyYuiIoOpPasSdDfgGhHjJklLzZxcCvVbBnm"
 local UPPER_MAP = "!@ $%^ *( QWE TY IOP SD GHJ LZ CVB"
 local LOWER_MAP = "1234567890qwertyuiopasdfghjklzxcvbnm"
 
-local Thread = loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/cjsomook/MidiPlayer/refs/heads/main/src/Util/Thread.lua'))()
-local Maid = loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/cjsomook/MidiPlayer/refs/heads/main/src/Util/Maid.lua'))()
+local Thread = loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/Saulildo/MidiPlayer/refs/heads/main/src/Util/Thread.lua'))()
+local Maid = loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/Saulildo/MidiPlayer/refs/heads/main/src/Util/Maid.lua'))()
 
 local inputMaid = Maid.new()
 
