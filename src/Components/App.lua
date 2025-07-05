@@ -10,12 +10,12 @@ local CoreGui = game:GetService("CoreGui")
 
 -- local midiPlayer = script:FindFirstAncestor("MidiPlayer")
 
-local FastDraggable = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/cjsomook/MidiPlayer/refs/heads/main/src/FastDraggable.lua"))()
-local Controller = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/cjsomook/MidiPlayer/refs/heads/main/src/Components/Controller.lua"))()
-local Sidebar = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/cjsomook/MidiPlayer/refs/heads/main/src/Components/Sidebar.lua"))()
-local Preview = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/cjsomook/MidiPlayer/refs/heads/main/src/Components/Preview.lua"))()
+local FastDraggable = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/Saulildo/MidiPlayer/refs/heads/main/src/FastDraggable.lua"))()
+local Controller = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/Saulildo/MidiPlayer/refs/heads/main/src/Components/Controller.lua"))()
+local Sidebar = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/Saulildo/MidiPlayer/refs/heads/main/src/Components/Sidebar.lua"))()
+local Preview = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/Saulildo/MidiPlayer/refs/heads/main/src/Components/Preview.lua"))()
 
-local gui = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/cjsomook/MidiPlayer/refs/heads/main/src/Assets/ScreenGui.lua"))()
+local gui = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/Saulildo/MidiPlayer/refs/heads/main/src/Assets/ScreenGui.lua"))()
 
 function App:GetGUI()
     return gui

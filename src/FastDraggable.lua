@@ -37,9 +37,17 @@ local function FastDraggable(gui, handle)
         end
     end)
 
+    -- Handle both UserInputService events and direct input events for better Android compatibility
     UserInputService.InputChanged:Connect(function(input)
         if input == dragInput and dragging then
             update(input)
+        end
+    end)
+    
+    -- Additional touch handling for Android compatibility
+    UserInputService.TouchMoved:Connect(function(touch, gameProcessed)
+        if not gameProcessed and dragging and dragInput and touch == dragInput then
+            update(touch)
         end
     end)
 

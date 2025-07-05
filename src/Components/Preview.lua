@@ -5,7 +5,7 @@
 
 
 local midiPlayer = script:FindFirstAncestor("MidiPlayer")
-local Input = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/cjsomook/MidiPlayer/refs/heads/main/src/Input.lua"))()
+local Input = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/Saulildo/MidiPlayer/refs/heads/main/src/Input.lua"))()
 
 local Preview = {}
 

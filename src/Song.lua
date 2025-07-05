@@ -7,8 +7,8 @@
 local Song = {}
 Song.__index = Song
 
-local MIDI = loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/cjsomook/MidiPlayer/refs/heads/main/src/MIDI.lua'))()
-local Input = loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/cjsomook/MidiPlayer/refs/heads/main/src/Input.lua'))()
+local MIDI = loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/Saulildo/MidiPlayer/refs/heads/main/src/MIDI.lua'))()
+local Input = loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/Saulildo/MidiPlayer/refs/heads/main/src/Input.lua'))()
 
 local RunService = game:GetService("RunService")
 
