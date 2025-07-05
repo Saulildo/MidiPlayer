@@ -36,13 +36,10 @@ function Sidebar:CreateElement(filePath)
         element.Selection.Size = UDim2.fromOffset(3, 0)
     end
 
-    element.Activated:Connect(function()
-        Controller:Select(filePath)
-    end)
-
     element.InputBegan:Connect(function(input)
         if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) then
             FastTween(element, tweenInfo, { BackgroundTransparency = 0.5 })
+            Controller:Select(filePath)
         end
     end)
 
