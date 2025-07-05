@@ -90,7 +90,7 @@ end
 
 function Controller:_startHidePreviewButton()
     local togglePreview = _G.main.TogglePreview
-    togglePreview.MouseButton1Down:Connect(function()
+    togglePreview.Activated:Connect(function()
         getgenv()._hideSongPreview = (not getgenv()._hideSongPreview)
         if (getgenv()._hideSongPreview) then
             FastTween(togglePreview.Fill, { 0.1 }, { Size = UDim2.new() })
@@ -103,7 +103,7 @@ end
 
 function Controller:_startPlaybackButton()
     local playback = _G.controller.Resume
-    playback.MouseButton1Down:Connect(function()
+    playback.Activated:Connect(function()
         if (not self.CurrentSong) then return end
         if (self.CurrentSong.IsPlaying) then
             self.CurrentSong:Pause()
@@ -146,7 +146,7 @@ function Controller:_startScrubber()
     end)
 
     _G.controller.Scrubber.Hitbox.InputChanged:Connect(function(input)
-        if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) then
+        if (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
             dragInput = input
         end
     end)
@@ -157,6 +157,16 @@ function Controller:_startScrubber()
                 self.CurrentSong:Pause()
             end
             update(input)
+        end
+    end)
+    
+    -- Additional touch handling for Android compatibility
+    UserInputService.TouchMoved:Connect(function(touch, gameProcessed)
+        if not gameProcessed and dragging and dragInput and touch == dragInput then
+            if (self.CurrentSong) then
+                self.CurrentSong:Pause()
+            end
+            update(touch)
         end
     end)
 
