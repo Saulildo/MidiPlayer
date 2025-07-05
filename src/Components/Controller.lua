@@ -32,7 +32,10 @@ function Controller:Select(filePath)
     self.CurrentSong = Song.new(filePath)
     self.FileLoaded:Fire(self.CurrentSong)
     self:Update()
-    Preview:Draw(self.CurrentSong)
+    -- Use pcall to safely call Preview:Draw in case Preview isn't initialized yet
+    pcall(function()
+        Preview:Draw(self.CurrentSong)
+    end)
 end
 
 
