@@ -39,6 +39,10 @@ function Song.new(file)
         Timebase = score[1];
         IsPlaying = false;
 
+        Transpose = 0;
+        LowestPitch = 0;
+        HighestPitch = 0;
+
         _score = score;
         _usPerBeat = 0;
         _lastTimePosition = 0;
@@ -49,6 +53,9 @@ function Song.new(file)
     }, Song)
 
     self.TimeLength = (self._length / self.Timebase)
+
+    -- Compute pitch range for auto-transpose decisions
+    self.LowestPitch, self.HighestPitch = self:_computePitchRange()
 
     return self
 
@@ -142,8 +149,62 @@ function Song:_parse(event)
         self.TimePosition = (event[3] / self.Timebase)
         print("set timeposition timebase", self.Timebase)
     elseif (eventName == "note") then
-        Input.Hold(event[5], event[3] / self.Timebase)
+        local transposedPitch = event[5] + (self.Transpose or 0)
+        Input.Hold(transposedPitch, event[3] / self.Timebase)
     end
+end
+
+function Song:_computePitchRange()
+    local lowest = math.huge
+    local highest = -math.huge
+    for i, track in next, self._score, 1 do
+        for _, event in ipairs(track) do
+            if (event[1] == "note") then
+                local p = event[5]
+                if p < lowest then lowest = p end
+                if p > highest then highest = p end
+            end
+        end
+    end
+    if lowest == math.huge then lowest = 0 end
+    if highest == -math.huge then highest = 0 end
+    return lowest, highest
+end
+
+function Song:SetTranspose(value)
+    self.Transpose = math.clamp(tonumber(value) or 0, -16, 16)
+end
+
+function Song:GetSuggestedTranspose()
+    local minPitch, maxPitch = Input.GetRange()
+    local low, high = self.LowestPitch, self.HighestPitch
+    if low == 0 and high == 0 then
+        return 0
+    end
+
+    local allowedCenter = (minPitch + maxPitch) / 2
+    local songCenter = (low + high) / 2
+
+    local shift = math.floor((allowedCenter - songCenter) + 0.5)
+
+    local minAllowed = minPitch - low
+    local maxAllowed = maxPitch - high
+
+    local left = math.max(-16, minAllowed)
+    local right = math.min(16, maxAllowed)
+
+    if left <= right then
+        if shift < left then shift = left end
+        if shift > right then shift = right end
+    else
+        if math.abs(left) < math.abs(right) then
+            shift = math.clamp(left, -16, 16)
+        else
+            shift = math.clamp(right, -16, 16)
+        end
+    end
+
+    return math.clamp(shift, -16, 16)
 end
 
 
