@@ -16,6 +16,8 @@ local Preview = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/
 local Controller = {
     CurrentSong = nil;
     FileLoaded = Signal.new();
+    Transpose = 0;
+    AutoTranspose = true;
 }
 
 local UserInputService = game:GetService("UserInputService")
@@ -30,11 +32,23 @@ function Controller:Select(filePath)
         self.CurrentSong:Destroy()
     end
     self.CurrentSong = Song.new(filePath)
+
+    if self.AutoTranspose then
+        local suggested = self.CurrentSong:GetSuggestedTranspose()
+        self.Transpose = suggested
+    end
+    self.CurrentSong.Transpose = self.Transpose
+
     self.FileLoaded:Fire(self.CurrentSong)
     self:Update()
     -- Use pcall to safely call Preview:Draw in case Preview isn't initialized yet
     pcall(function()
         Preview:Draw(self.CurrentSong)
+    end)
+
+    -- Update UI to reflect current transpose state
+    pcall(function()
+        self:_updateTransposeUI()
     end)
 end
 
@@ -78,6 +92,8 @@ function Controller:Init(frame)
 
     self:_startHidePreviewButton()
 
+    self:_startTransposeControls()
+
     Thread.DelayRepeat(1/60, function()
         if (self.CurrentSong) then
             Preview:Update(self.CurrentSong.TimePosition * self.CurrentSong.Timebase)
@@ -115,6 +131,72 @@ function Controller:_startPlaybackButton()
         end
         self:Update()
     end)
+end
+
+function Controller:_updateTransposeUI()
+    local tFrame = _G.main:FindFirstChild("Transpose")
+    if tFrame then
+        local valueLabel = tFrame:FindFirstChild("Value")
+        if valueLabel then
+            valueLabel.Text = tostring(self.Transpose)
+        end
+    end
+    local autoBtn = _G.main:FindFirstChild("AutoTranspose")
+    if autoBtn and autoBtn:FindFirstChild("Fill") then
+        if (self.AutoTranspose) then
+            FastTween(autoBtn.Fill, { 0.1 }, { Size = UDim2.new(1, -12, 1, -12) })
+        else
+            FastTween(autoBtn.Fill, { 0.1 }, { Size = UDim2.new() })
+        end
+    end
+end
+
+function Controller:_applyTranspose(newVal)
+    newVal = math.clamp(newVal, -16, 16)
+    self.Transpose = newVal
+    if (self.CurrentSong) then
+        self.CurrentSong.Transpose = newVal
+        Preview:Draw(self.CurrentSong)
+    end
+    self:_updateTransposeUI()
+end
+
+function Controller:_startTransposeControls()
+    local tFrame = _G.main:FindFirstChild("Transpose")
+    local autoBtn = _G.main:FindFirstChild("AutoTranspose")
+    if not tFrame or not autoBtn then return end
+
+    local minus = tFrame:FindFirstChild("Minus")
+    local plus = tFrame:FindFirstChild("Plus")
+
+    if minus then
+        minus.Activated:Connect(function()
+            self.AutoTranspose = false
+            self:_applyTranspose(self.Transpose - 1)
+            self:_updateTransposeUI()
+        end)
+    end
+
+    if plus then
+        plus.Activated:Connect(function()
+            self.AutoTranspose = false
+            self:_applyTranspose(self.Transpose + 1)
+            self:_updateTransposeUI()
+        end)
+    end
+
+    if autoBtn then
+        autoBtn.Activated:Connect(function()
+            self.AutoTranspose = not self.AutoTranspose
+            if self.AutoTranspose and self.CurrentSong then
+                self:_applyTranspose(self.CurrentSong:GetSuggestedTranspose())
+            else
+                self:_updateTransposeUI()
+            end
+        end)
+    end
+
+    self:_updateTransposeUI()
 end
 
 

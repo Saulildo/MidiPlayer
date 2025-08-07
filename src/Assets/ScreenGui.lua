@@ -375,6 +375,100 @@ G2L["25"]["Name"] = [[Fill]];
 G2L["26"] = Instance.new("UICorner", G2L["25"]);
 G2L["26"]["CornerRadius"] = UDim.new(1, 0);
 
+-- Transpose controls container
+-- StarterGui.ScreenGui.Frame.Main.Transpose
+G2L["28"] = Instance.new("Frame", G2L["10"]);
+G2L["28"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["28"]["BackgroundTransparency"] = 1;
+G2L["28"]["BorderColor3"] = Color3.fromRGB(28, 43, 54);
+G2L["28"]["Name"] = [[Transpose]];
+G2L["28"]["Position"] = UDim2.new(0, 64, 0, 48);
+G2L["28"]["Size"] = UDim2.new(0, 120, 0, 24);
+
+-- StarterGui.ScreenGui.Frame.Main.Transpose.Minus
+G2L["29"] = Instance.new("TextButton", G2L["28"]);
+G2L["29"]["BackgroundColor3"] = Color3.fromRGB(43, 43, 43);
+G2L["29"]["BackgroundTransparency"] = 0.2;
+G2L["29"]["BorderColor3"] = Color3.fromRGB(28, 43, 54);
+G2L["29"]["Size"] = UDim2.new(0, 24, 0, 24);
+G2L["29"]["Text"] = "-";
+G2L["29"]["FontFace"] = Font.new([[rbxasset://fonts/families/Roboto.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
+G2L["29"]["TextSize"] = 18;
+G2L["29"]["TextColor3"] = Color3.fromRGB(232, 232, 232);
+G2L["29"]["Name"] = [[Minus]];
+
+-- StarterGui.ScreenGui.Frame.Main.Transpose.Value
+G2L["2a"] = Instance.new("TextLabel", G2L["28"]);
+G2L["2a"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["2a"]["BackgroundTransparency"] = 1;
+G2L["2a"]["BorderColor3"] = Color3.fromRGB(28, 43, 54);
+G2L["2a"]["Size"] = UDim2.new(1, -48, 0, 24);
+G2L["2a"]["Position"] = UDim2.new(0, 24, 0, 0);
+G2L["2a"]["Text"] = [[0]];
+G2L["2a"]["TextColor3"] = Color3.fromRGB(232, 232, 232);
+G2L["2a"]["TextXAlignment"] = Enum.TextXAlignment.Center;
+G2L["2a"]["FontFace"] = Font.new([[rbxasset://fonts/families/Roboto.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+G2L["2a"]["TextSize"] = 16;
+G2L["2a"]["Name"] = [[Value]];
+
+-- StarterGui.ScreenGui.Frame.Main.Transpose.Plus
+G2L["2b"] = Instance.new("TextButton", G2L["28"]);
+G2L["2b"]["BackgroundColor3"] = Color3.fromRGB(43, 43, 43);
+G2L["2b"]["BackgroundTransparency"] = 0.2;
+G2L["2b"]["BorderColor3"] = Color3.fromRGB(28, 43, 54);
+G2L["2b"]["Size"] = UDim2.new(0, 24, 0, 24);
+G2L["2b"]["Position"] = UDim2.new(1, -24, 0, 0);
+G2L["2b"]["Text"] = "+";
+G2L["2b"]["FontFace"] = Font.new([[rbxasset://fonts/families/Roboto.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
+G2L["2b"]["TextSize"] = 18;
+G2L["2b"]["TextColor3"] = Color3.fromRGB(232, 232, 232);
+G2L["2b"]["Name"] = [[Plus]];
+
+-- StarterGui.ScreenGui.Frame.Main.AutoTranspose
+G2L["2c"] = Instance.new("ImageButton", G2L["10"]);
+G2L["2c"]["BorderSizePixel"] = 0;
+G2L["2c"]["AutoButtonColor"] = false;
+G2L["2c"]["BackgroundColor3"] = Color3.fromRGB(232, 232, 232);
+G2L["2c"]["Size"] = UDim2.new(0, 24, 0, 24);
+G2L["2c"]["Name"] = [[AutoTranspose]];
+G2L["2c"]["BorderColor3"] = Color3.fromRGB(28, 43, 54);
+G2L["2c"]["Position"] = UDim2.new(0, 192, 0, 48);
+
+-- StarterGui.ScreenGui.Frame.Main.AutoTranspose.UICorner
+G2L["2d"] = Instance.new("UICorner", G2L["2c"]);
+G2L["2d"]["CornerRadius"] = UDim.new(1, 0);
+
+-- StarterGui.ScreenGui.Frame.Main.AutoTranspose.Clip
+G2L["2e"] = Instance.new("Frame", G2L["2c"]);
+G2L["2e"]["Active"] = true;
+G2L["2e"]["BorderSizePixel"] = 0;
+G2L["2e"]["BackgroundColor3"] = Color3.fromRGB(43, 43, 43);
+G2L["2e"]["Selectable"] = true;
+G2L["2e"]["AnchorPoint"] = Vector2.new(0.5, 0.5);
+G2L["2e"]["Size"] = UDim2.new(1, -6, 1, -6);
+G2L["2e"]["Position"] = UDim2.new(0.5, 0, 0.5, 0);
+G2L["2e"]["BorderColor3"] = Color3.fromRGB(28, 43, 54);
+G2L["2e"]["Name"] = [[Clip]];
+
+-- StarterGui.ScreenGui.Frame.Main.AutoTranspose.Clip.UICorner
+G2L["2f"] = Instance.new("UICorner", G2L["2e"]);
+G2L["2f"]["CornerRadius"] = UDim.new(1, 0);
+
+-- StarterGui.ScreenGui.Frame.Main.AutoTranspose.Fill
+G2L["30"] = Instance.new("Frame", G2L["2c"]);
+G2L["30"]["Active"] = true;
+G2L["30"]["BorderSizePixel"] = 0;
+G2L["30"]["BackgroundColor3"] = Color3.fromRGB(232, 232, 232);
+G2L["30"]["Selectable"] = true;
+G2L["30"]["AnchorPoint"] = Vector2.new(0.5, 0.5);
+G2L["30"]["Size"] = UDim2.new(0, 0, 0, 0);
+G2L["30"]["Position"] = UDim2.new(0.5, 0, 0.5, 0);
+G2L["30"]["BorderColor3"] = Color3.fromRGB(28, 43, 54);
+G2L["30"]["Name"] = [[Fill]];
+
+-- StarterGui.ScreenGui.Frame.Main.AutoTranspose.Fill.UICorner
+G2L["31"] = Instance.new("UICorner", G2L["30"]);
+G2L["31"]["CornerRadius"] = UDim.new(1, 0);
 
 -- StarterGui.ScreenGui.Frame.Handle
 G2L["27"] = Instance.new("Frame", G2L["2"]);

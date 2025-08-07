@@ -33,21 +33,26 @@ function Preview:Draw(song)
 
     notes.Parent = nil
 
+    local minPitch, maxPitch = Input.GetRange()
+    local denom = math.max(1, (maxPitch - minPitch))
+
     for i, track in next, song._score, 1 do
         local color = colors[(i % #colors) + 1]
 
         for _,event in ipairs(track) do
             if (event[1] == "note") then
-                local pitch = event[5]
-                local note = noteTemplate:Clone()
-                if (Input.IsUpper(pitch)) then
-                    note.BackgroundColor3 = color:Lerp(c3White, 0.25)
-                else
-                    note.BackgroundColor3 = color
+                local pitch = event[5] + (song.Transpose or 0)
+                if pitch >= minPitch and pitch <= maxPitch then
+                    local note = noteTemplate:Clone()
+                    if (Input.IsUpper(pitch)) then
+                        note.BackgroundColor3 = color:Lerp(c3White, 0.25)
+                    else
+                        note.BackgroundColor3 = color
+                    end
+                    note.Position = UDim2.new((pitch - minPitch) / denom, 0, 0, -event[2] / 2)
+                    note.Size = UDim2.new(0.016, 0, 0, math.max(event[3] / 2, 1))
+                    note.Parent = notes
                 end
-                note.Position = UDim2.new((pitch - 36) / 61, 0, 0, -event[2] / 2)
-                note.Size = UDim2.new(0.016, 0, 0, math.max(event[3] / 2, 1))
-                note.Parent = notes
             end
         end
     end
