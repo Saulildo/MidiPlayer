@@ -7,8 +7,9 @@
 local Song = {}
 Song.__index = Song
 
-local MIDI = loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/Saulildo/MidiPlayer/refs/heads/main/src/MIDI.lua'))()
-local Input = loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/Saulildo/MidiPlayer/refs/heads/main/src/Input.lua'))()
+local BASE = getgenv().MidiPlayerBaseUrl or 'https://raw.githubusercontent.com/Saulildo/MidiPlayer/main'
+local MIDI = loadstring(game:HttpGetAsync(BASE .. '/src/MIDI.lua'))()
+local Input = getgenv().Input or loadstring(game:HttpGetAsync(BASE .. '/src/Input.lua'))(); getgenv().Input = Input
 
 local RunService = game:GetService("RunService")
 

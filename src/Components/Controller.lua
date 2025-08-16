@@ -6,12 +6,13 @@
 
 --local midiPlayer = script:FindFirstAncestor("MidiPlayer")
 
-local Signal = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/Saulildo/MidiPlayer/refs/heads/main/src/Util/Signal.lua"))()
-local Date = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/Saulildo/MidiPlayer/refs/heads/main/src/Util/Date.lua"))()
-local Thread = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/Saulildo/MidiPlayer/refs/heads/main/src/Util/Thread.lua"))()
-local Song = getgenv().Song or loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/Saulildo/MidiPlayer/refs/heads/main/src/Song.lua"))(); getgenv().Song = Song
-local FastTween = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/Saulildo/MidiPlayer/refs/heads/main/src/FastTween.lua"))()
-local Preview = getgenv().Preview or loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/Saulildo/MidiPlayer/refs/heads/main/src/Components/Preview.lua"))(); getgenv().Preview = Preview
+local BASE = getgenv().MidiPlayerBaseUrl or "https://raw.githubusercontent.com/Saulildo/MidiPlayer/main"
+local Signal = loadstring(game:HttpGetAsync(BASE .. "/src/Util/Signal.lua"))()
+local Date = loadstring(game:HttpGetAsync(BASE .. "/src/Util/Date.lua"))()
+local Thread = loadstring(game:HttpGetAsync(BASE .. "/src/Util/Thread.lua"))()
+local Song = getgenv().Song or loadstring(game:HttpGetAsync(BASE .. "/src/Song.lua"))(); getgenv().Song = Song
+local FastTween = loadstring(game:HttpGetAsync(BASE .. "/src/FastTween.lua"))()
+local Preview = getgenv().Preview or loadstring(game:HttpGetAsync(BASE .. "/src/Components/Preview.lua"))(); getgenv().Preview = Preview
 
 local Controller = {
     CurrentSong = nil;
