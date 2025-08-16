@@ -6,16 +6,20 @@
 
 --local midiPlayer = script:FindFirstAncestor("MidiPlayer")
 
-local Signal = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/Saulildo/MidiPlayer/refs/heads/main/src/Util/Signal.lua"))()
-local Date = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/Saulildo/MidiPlayer/refs/heads/main/src/Util/Date.lua"))()
-local Thread = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/Saulildo/MidiPlayer/refs/heads/main/src/Util/Thread.lua"))()
-local Song = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/Saulildo/MidiPlayer/refs/heads/main/src/Song.lua"))()
-local FastTween = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/Saulildo/MidiPlayer/refs/heads/main/src/FastTween.lua"))()
-local Preview = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/Saulildo/MidiPlayer/refs/heads/main/src/Components/Preview.lua"))()
+local BASE = getgenv().MidiPlayerBaseUrl or "https://raw.githubusercontent.com/Saulildo/MidiPlayer/cursor/implement-midi-auto-transpose-and-manual-controls-a58d"
+local Signal = loadstring(game:HttpGetAsync(BASE .. "/src/Util/Signal.lua"))()
+local Date = loadstring(game:HttpGetAsync(BASE .. "/src/Util/Date.lua"))()
+local Thread = loadstring(game:HttpGetAsync(BASE .. "/src/Util/Thread.lua"))()
+local Song = getgenv().Song or loadstring(game:HttpGetAsync(BASE .. "/src/Song.lua"))(); getgenv().Song = Song
+local FastTween = loadstring(game:HttpGetAsync(BASE .. "/src/FastTween.lua"))()
+local Preview = getgenv().Preview or loadstring(game:HttpGetAsync(BASE .. "/src/Components/Preview.lua"))(); getgenv().Preview = Preview
 
 local Controller = {
     CurrentSong = nil;
     FileLoaded = Signal.new();
+    _initialized = false;
+    Main = nil; -- frame.Main
+    UIController = nil; -- frame.Main.Controller
 }
 
 local UserInputService = game:GetService("UserInputService")
@@ -30,6 +34,7 @@ function Controller:Select(filePath)
         self.CurrentSong:Destroy()
     end
     self.CurrentSong = Song.new(filePath)
+    self.CurrentFile = filePath
     self.FileLoaded:Fire(self.CurrentSong)
     self:Update()
     -- Use pcall to safely call Preview:Draw in case Preview isn't initialized yet
@@ -41,42 +46,51 @@ end
 
 function Controller:Update()
     local song = self.CurrentSong
+    local main = self.Main or _G.main
+    local ui = self.UIController or _G.controller
+    if not (main and ui) then return end
 
     if (song) then
-        _G.main.Title.Text = song.Name
+        main.Title.Text = song.Name
 
         if (song.TimePosition) then
             local date = Date.new(song.TimePosition)
-            _G.controller.Time.Text = ("%s:%s"):format(
+            ui.Time.Text = ("%s:%s"):format(
                 tostring(date.Minute),
                 ("%02i"):format(tostring(date.Second % 60))
             )
         end
 
-        _G.controller.Scrubber.Progress.Size = UDim2.fromScale(math.min(1, song.TimePosition / song.TimeLength), 1)
-        _G.controller.Scrubber.Fill.Size = UDim2.fromScale(1 - _G.controller.Scrubber.Progress.Size.X.Scale, 1)
-        _G.controller.Resume.Image = (song.IsPlaying and "rbxassetid://5915789609") or "rbxassetid://5915551861"
+        ui.Scrubber.Progress.Size = UDim2.fromScale(math.min(1, song.TimePosition / song.TimeLength), 1)
+        ui.Scrubber.Fill.Size = UDim2.fromScale(1 - ui.Scrubber.Progress.Size.X.Scale, 1)
+        ui.Resume.Image = (song.IsPlaying and "rbxassetid://5915789609") or "rbxassetid://5915551861"
 
     else
-        _G.main.Title.Text = "No song selected"
-        _G.controller.Time.Text = "0:00"
-        _G.controller.Scrubber.Progress.Size = UDim2.fromScale(0, 1)
-        _G.controller.Scrubber.Fill.Size = UDim2.fromScale(1, 1)
-        _G.controller.Resume.Image = "rbxassetid://5915551861"
+        main.Title.Text = "No song selected"
+        ui.Time.Text = "0:00"
+        ui.Scrubber.Progress.Size = UDim2.fromScale(0, 1)
+        ui.Scrubber.Fill.Size = UDim2.fromScale(1, 1)
+        ui.Resume.Image = "rbxassetid://5915551861"
     end
 end
 
 
 function Controller:Init(frame)
+    if self._initialized then return end
+    self._initialized = true
 
-    _G.main = frame.Main
-    _G.controller = _G.main.Controller
+    self.Main = frame.Main
+    self.UIController = self.Main.Controller
+    _G.main = self.Main
+    _G.controller = self.UIController
 
     self:_startScrubber()
 
     self:_startPlaybackButton()
 
     self:_startHidePreviewButton()
+
+    self:_startTransposeControls()
 
     Thread.DelayRepeat(1/60, function()
         if (self.CurrentSong) then
@@ -92,7 +106,7 @@ end
 
 
 function Controller:_startHidePreviewButton()
-    local togglePreview = _G.main.TogglePreview
+    local togglePreview = (self.Main or _G.main).TogglePreview
     togglePreview.Activated:Connect(function()
         getgenv()._hideSongPreview = (not getgenv()._hideSongPreview)
         if (getgenv()._hideSongPreview) then
@@ -105,7 +119,7 @@ end
 
 
 function Controller:_startPlaybackButton()
-    local playback = _G.controller.Resume
+    local playback = (self.UIController or _G.controller).Resume
     playback.Activated:Connect(function()
         if (not self.CurrentSong) then return end
         if (self.CurrentSong.IsPlaying) then
@@ -122,21 +136,22 @@ function Controller:_startScrubber()
 
     -- https://devforum.roblox.com/t/draggable-property-is-hidden-on-gui-objects/107689/5
 
-    local absSize = _G.controller.Scrubber.AbsoluteSize
+    local ui = self.UIController or _G.controller
+    local absSize = ui.Scrubber.AbsoluteSize
 
     local dragging
     local dragInput
 
     local function update(input)
         local song = self.CurrentSong
-        local absPos = _G.controller.Scrubber.AbsolutePosition
+        local absPos = ui.Scrubber.AbsolutePosition
         if (song) then
             song:JumpTo(math.clamp((input.Position.X - absPos.X) / absSize.X, 0, 1) * song.TimeLength)
         end
         self:Update()
     end
 
-    _G.controller.Scrubber.Hitbox.InputBegan:Connect(function(input)
+    ui.Scrubber.Hitbox.InputBegan:Connect(function(input)
         if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) then
             dragging = true
             input.Changed:Connect(function()
@@ -148,7 +163,7 @@ function Controller:_startScrubber()
         end
     end)
 
-    _G.controller.Scrubber.Hitbox.InputChanged:Connect(function(input)
+    ui.Scrubber.Hitbox.InputChanged:Connect(function(input)
         if (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
             dragInput = input
         end
@@ -173,6 +188,31 @@ function Controller:_startScrubber()
         end
     end)
 
+end
+
+function Controller:_startTransposeControls()
+    UserInputService.InputBegan:Connect(function(input, gameProcessed)
+        if gameProcessed then return end
+        if input.UserInputType == Enum.UserInputType.Keyboard then
+            local song = self.CurrentSong
+            if not (song and song.IsPlaying) then
+                return
+            end
+            if input.KeyCode == Enum.KeyCode.Right then
+                song:SetTranspose(song:GetTranspose() + 1)
+                pcall(function()
+                    Preview:Draw(song)
+                end)
+                self:Update()
+            elseif input.KeyCode == Enum.KeyCode.Left then
+                song:SetTranspose(song:GetTranspose() - 1)
+                pcall(function()
+                    Preview:Draw(song)
+                end)
+                self:Update()
+            end
+        end
+    end)
 end
 
 

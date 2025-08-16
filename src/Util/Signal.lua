@@ -19,7 +19,8 @@
 
 --]]
 
-local Promise = loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/Saulildo/MidiPlayer/refs/heads/main/src/Util/Promise.lua'))()
+local BASE = getgenv().MidiPlayerBaseUrl or 'https://raw.githubusercontent.com/Saulildo/MidiPlayer/cursor/implement-midi-auto-transpose-and-manual-controls-a58d'
+local Promise = loadstring(game:HttpGetAsync(BASE .. '/src/Util/Promise.lua'))()
 
 local Connection = {}
 Connection.__index = Connection

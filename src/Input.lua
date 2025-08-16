@@ -15,8 +15,15 @@ local NOTE_MAP = "1!2@34$5%6^78*9(0qQwWeErtTyYuiIoOpPasSdDfgGhHjJklLzZxcCvVbBnm"
 local UPPER_MAP = "!@ $%^ *( QWE TY IOP SD GHJ LZ CVB"
 local LOWER_MAP = "1234567890qwertyuiopasdfghjklzxcvbnm"
 
-local Thread = loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/Saulildo/MidiPlayer/refs/heads/main/src/Util/Thread.lua'))()
-local Maid = loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/Saulildo/MidiPlayer/refs/heads/main/src/Util/Maid.lua'))()
+local MIN_PITCH = 36
+local MAX_PITCH = MIN_PITCH + #NOTE_MAP - 1
+
+Input.MinPitch = MIN_PITCH
+Input.MaxPitch = MAX_PITCH
+
+local BASE = getgenv().MidiPlayerBaseUrl or 'https://raw.githubusercontent.com/Saulildo/MidiPlayer/cursor/implement-midi-auto-transpose-and-manual-controls-a58d'
+local Thread = loadstring(game:HttpGetAsync(BASE .. '/src/Util/Thread.lua'))()
+local Maid = loadstring(game:HttpGetAsync(BASE .. '/src/Util/Maid.lua'))()
 
 local inputMaid = Maid.new()
 
