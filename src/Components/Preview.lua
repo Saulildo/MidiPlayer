@@ -33,12 +33,17 @@ function Preview:Draw(song)
 
     notes.Parent = nil
 
+    local transpose = 0
+    if song and song.GetTranspose then
+        transpose = song:GetTranspose()
+    end
+
     for i, track in next, song._score, 1 do
         local color = colors[(i % #colors) + 1]
 
         for _,event in ipairs(track) do
             if (event[1] == "note") then
-                local pitch = event[5]
+                local pitch = event[5] + transpose
                 local note = noteTemplate:Clone()
                 if (Input.IsUpper(pitch)) then
                     note.BackgroundColor3 = color:Lerp(c3White, 0.25)

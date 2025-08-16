@@ -78,6 +78,8 @@ function Controller:Init(frame)
 
     self:_startHidePreviewButton()
 
+    self:_startTransposeControls()
+
     Thread.DelayRepeat(1/60, function()
         if (self.CurrentSong) then
             Preview:Update(self.CurrentSong.TimePosition * self.CurrentSong.Timebase)
@@ -173,6 +175,31 @@ function Controller:_startScrubber()
         end
     end)
 
+end
+
+function Controller:_startTransposeControls()
+	UserInputService.InputBegan:Connect(function(input, gameProcessed)
+		if gameProcessed then return end
+		if input.UserInputType == Enum.UserInputType.Keyboard then
+			if input.KeyCode == Enum.KeyCode.Up then
+				if self.CurrentSong then
+					self.CurrentSong:SetTranspose(self.CurrentSong:GetTranspose() + 1)
+					pcall(function()
+						Preview:Draw(self.CurrentSong)
+					end)
+					self:Update()
+				end
+			elseif input.KeyCode == Enum.KeyCode.Down then
+				if self.CurrentSong then
+					self.CurrentSong:SetTranspose(self.CurrentSong:GetTranspose() - 1)
+					pcall(function()
+						Preview:Draw(self.CurrentSong)
+					end)
+					self:Update()
+				end
+			end
+		end
+	end)
 end
 
 
