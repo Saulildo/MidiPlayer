@@ -10,7 +10,7 @@ local CoreGui = game:GetService("CoreGui")
 
 -- local midiPlayer = script:FindFirstAncestor("MidiPlayer")
 
-local BASE = getgenv().MidiPlayerBaseUrl or "https://raw.githubusercontent.com/Saulildo/MidiPlayer/main"
+local BASE = getgenv().MidiPlayerBaseUrl or "https://raw.githubusercontent.com/Saulildo/MidiPlayer/cursor/implement-midi-auto-transpose-and-manual-controls-a58d"
 local FastDraggable = loadstring(game:HttpGetAsync(BASE .. "/src/FastDraggable.lua"))()
 local Controller = getgenv().Controller or loadstring(game:HttpGetAsync(BASE .. "/src/Components/Controller.lua"))(); getgenv().Controller = Controller
 local Sidebar = loadstring(game:HttpGetAsync(BASE .. "/src/Components/Sidebar.lua"))()

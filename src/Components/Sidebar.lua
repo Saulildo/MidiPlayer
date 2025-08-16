@@ -5,7 +5,7 @@
 
 
 local midiPlayer = script:FindFirstAncestor("MidiPlayer")
-local BASE = getgenv().MidiPlayerBaseUrl or "https://raw.githubusercontent.com/Saulildo/MidiPlayer/main"
+local BASE = getgenv().MidiPlayerBaseUrl or "https://raw.githubusercontent.com/Saulildo/MidiPlayer/cursor/implement-midi-auto-transpose-and-manual-controls-a58d"
 local Thread = loadstring(game:HttpGetAsync(BASE .. "/src/Util/Thread.lua"))()
 local Controller = getgenv().Controller or loadstring(game:HttpGetAsync(BASE .. "/src/Components/Controller.lua"))(); getgenv().Controller = Controller
 local FastTween = loadstring(game:HttpGetAsync(BASE .. "/src/FastTween.lua"))()

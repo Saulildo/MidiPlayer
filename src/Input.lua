@@ -21,8 +21,9 @@ local MAX_PITCH = MIN_PITCH + #NOTE_MAP - 1
 Input.MinPitch = MIN_PITCH
 Input.MaxPitch = MAX_PITCH
 
-local Thread = loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/Saulildo/MidiPlayer/refs/heads/main/src/Util/Thread.lua'))()
-local Maid = loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/Saulildo/MidiPlayer/refs/heads/main/src/Util/Maid.lua'))()
+local BASE = getgenv().MidiPlayerBaseUrl or 'https://raw.githubusercontent.com/Saulildo/MidiPlayer/cursor/implement-midi-auto-transpose-and-manual-controls-a58d'
+local Thread = loadstring(game:HttpGetAsync(BASE .. '/src/Util/Thread.lua'))()
+local Maid = loadstring(game:HttpGetAsync(BASE .. '/src/Util/Maid.lua'))()
 
 local inputMaid = Maid.new()
 

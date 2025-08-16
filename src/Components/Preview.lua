@@ -4,7 +4,7 @@
 
 
 
-local BASE = getgenv().MidiPlayerBaseUrl or "https://raw.githubusercontent.com/Saulildo/MidiPlayer/main"
+local BASE = getgenv().MidiPlayerBaseUrl or "https://raw.githubusercontent.com/Saulildo/MidiPlayer/cursor/implement-midi-auto-transpose-and-manual-controls-a58d"
 local midiPlayer = script:FindFirstAncestor("MidiPlayer")
 local Input = getgenv().Input or loadstring(game:HttpGetAsync(BASE .. "/src/Input.lua"))(); getgenv().Input = Input
 
