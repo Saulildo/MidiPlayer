@@ -1,7 +1,7 @@
 -- Thread
 -- Stephen Leitnick
 -- January 5, 2020
-
+-- 1tvQOOHWnsoLqstPB5Rp5sG0rkIGgTGvmex17xn6d3KO6a6XCA4tXmSPaYrYagGTiH2hzlIWpKRwf9QA9kVtua6syjDlGqYCV0g6yNAXcWCcBH5CQi9ctZioJ3nCnAt4MZxVqnFc0vpX1F2t3zDHdveHCp4mo56KB5XbXCiYWt2rgF59uIyTjGVpvEGkpFrbSDf4qciFxq9gAjKhA1Vl1Q3MqylXd
 --[[
 
 	Thread.SpawnNow(func, ...)
